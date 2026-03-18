@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>送信完了 | AGRIDRIVE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 16px; }
+    body {
+      font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+      color: #1a1a1a;
+      background: #f4f1e9;
+      line-height: 1.8;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    a { text-decoration: none; color: inherit; }
+    :root {
+      --green-dark: #2d4740;
+      --cream: #f4f1e9;
+      --lime: #b2cf81;
+      --white: #ffffff;
+      --gray: #666666;
+      --font-en: 'Montserrat', sans-serif;
+      --font-jp: 'Noto Sans JP', sans-serif;
+    }
+    .thanks-container {
+      text-align: center;
+      padding: 60px 20px;
+      max-width: 600px;
+    }
+    .thanks-logo {
+      font-family: var(--font-en);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--green-dark);
+      letter-spacing: 0.15em;
+      margin-bottom: 48px;
+    }
+    .thanks-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--lime);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 1.8rem;
+      color: var(--green-dark);
+    }
+    .thanks-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--green-dark);
+      margin-bottom: 16px;
+    }
+    .thanks-text {
+      color: var(--gray);
+      font-size: 0.95rem;
+      margin-bottom: 40px;
+    }
+    .thanks-btn {
+      display: inline-block;
+      padding: 14px 40px;
+      background: var(--green-dark);
+      color: var(--white);
+      font-family: var(--font-jp);
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 6px;
+      letter-spacing: 0.1em;
+      transition: all 0.3s;
+    }
+    .thanks-btn:hover {
+      background: #3d5a4f;
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+  <div class="thanks-container">
+    <p class="thanks-logo">AGRIDRIVE</p>
+    <div class="thanks-icon">&#10003;</div>
+    <h1 class="thanks-title">送信が完了しました</h1>
+    <p class="thanks-text">
+      お問い合わせいただきありがとうございます。<br>
+      内容を確認の上、2営業日以内にご連絡いたします。
+    </p>
+    <a href="/" class="thanks-btn">トップページに戻る &rarr;</a>
+  </div>
+</body>
+</html>
+<!-- deployed Wed Mar 18 22:37:40 JST 2026 -->
+<!-- deploy 1773842308 -->
+<!-- cache-bust 1773842802 -->
