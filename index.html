@@ -55,6 +55,29 @@
   }
   </script>
 
+  <!-- Google tag (gtag.js) — GA4 + Google Ads -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FRKLF9BDYQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FRKLF9BDYQ');
+    gtag('config', 'AW-17917099008');
+  </script>
+  <!-- Google Ads conversion event helper -->
+  <script>
+    function gtagSendEvent(url) {
+      var callback = function () {
+        if (typeof url === 'string') { window.location = url; }
+      };
+      gtag('event', 'click_contact_button', {
+        'event_callback': callback,
+        'event_timeout': 2000,
+      });
+      return false;
+    }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -1922,6 +1945,68 @@
       } else {
         header.style.background = 'rgba(45, 71, 64, 0.95)';
       }
+    });
+
+    // ===== TRACKING: GA4 + Google Ads CV =====
+
+    // 1) お問い合わせフォーム送信 → GA4 + Google Ads CV
+    const contactForm = document.querySelector('.contact-form');
+    if (contactForm) {
+      contactForm.addEventListener('submit', function() {
+        gtag('event', 'click_contact_button', {
+          'event_category': 'contact',
+          'event_label': 'form_submit'
+        });
+        gtag('event', 'conversion', {
+          'send_to': 'AW-17917099008/contact_form'
+        });
+      });
+    }
+
+    // 2) BASEリンク（購入ボタン）クリック → GA4イベント + UTMパラメータ付与
+    function addUtmToBaseLinks() {
+      const utm = '?utm_source=agridrive_lp&utm_medium=referral&utm_campaign=naturemaster';
+      document.querySelectorAll('a[href*="shop.agridrive.jp"]').forEach(function(link) {
+        var href = link.getAttribute('href');
+        if (href && href.indexOf('utm_source') === -1) {
+          link.setAttribute('href', href + utm);
+        }
+        link.addEventListener('click', function() {
+          gtag('event', 'click_purchase_button', {
+            'event_category': 'purchase',
+            'event_label': href,
+            'transport_type': 'beacon'
+          });
+        });
+      });
+    }
+    addUtmToBaseLinks();
+
+    // 3) 商品セレクターのBASEリンク更新時もUTM付与
+    var origUpdateProduct = updateProduct;
+    updateProduct = function() {
+      origUpdateProduct();
+      addUtmToBaseLinks();
+    };
+
+    // 4) 「大量注文のご相談」「大量注文のお問い合わせ」クリック計測
+    document.querySelectorAll('a[href="#contact"]').forEach(function(link) {
+      link.addEventListener('click', function() {
+        gtag('event', 'click_contact_link', {
+          'event_category': 'contact',
+          'event_label': link.textContent.trim()
+        });
+      });
+    });
+
+    // 5) ヘッダー「購入する」CTAクリック計測
+    document.querySelectorAll('a[href="#product"]').forEach(function(link) {
+      link.addEventListener('click', function() {
+        gtag('event', 'click_product_link', {
+          'event_category': 'navigation',
+          'event_label': link.textContent.trim()
+        });
+      });
     });
   </script>
 
