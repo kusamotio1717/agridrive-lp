@@ -155,6 +155,7 @@
       <select class="product-selector-select" id="sel-width">
         <option value="950">950mm</option>
         <option value="1350">1350mm</option>
+        <option value="1500">1500mm</option>
       </select>
     </div>
     <div class="product-selector-row">
@@ -162,13 +163,13 @@
       <select class="product-selector-select" id="sel-length">
         <option value="200">200m</option>
         <option value="400">400m</option>
+        <option value="500">500m</option>
       </select>
     </div>
     <div class="product-selector-row">
       <span class="product-selector-label">購入タイプ</span>
       <select class="product-selector-select" id="sel-qty">
-        <option value="1">1本（お試し購入）</option>
-        <option value="2">2本以上（まとめ買い割引）</option>
+        <option value="1">1本</option>
         <option value="20">20本以上（お見積り）</option>
       </select>
     </div>
@@ -187,14 +188,30 @@
   <script>
     const productData = {
       '950-200-1':  { price: 5500,  url: 'https://shop.agridrive.jp/items/127511679' },
-      '950-200-2':  { price: 10450, url: 'https://shop.agridrive.jp/items/130876520' },
       '950-400-1':  { price: 10100, url: 'https://shop.agridrive.jp/items/127888951' },
-      '950-400-2':  { price: 19190, url: 'https://shop.agridrive.jp/items/127889788' },
+      '950-500-1':  { price: 11900, url: 'https://shop.agridrive.jp/items/140442556' },
       '1350-200-1': { price: 8800,  url: 'https://shop.agridrive.jp/items/130876006' },
-      '1350-200-2': { price: 16720, url: 'https://shop.agridrive.jp/items/130876743' },
       '1350-400-1': { price: 15900, url: 'https://shop.agridrive.jp/items/130876119' },
-      '1350-400-2': { price: 30210, url: 'https://shop.agridrive.jp/items/130876958' },
+      '1500-200-1': { price: 10320, url: 'https://shop.agridrive.jp/items/141067623' },
     };
+
+    // 幅ごとの長さ選択肢
+    const lengthOptions = {
+      '950':  ['200', '400', '500'],
+      '1350': ['200', '400'],
+      '1500': ['200'],
+    };
+
+    function updateLengthOptions() {
+      const w = document.getElementById('sel-width').value;
+      const lengthSel = document.getElementById('sel-length');
+      const opts = lengthOptions[w] || ['200'];
+      const currentVal = lengthSel.value;
+      lengthSel.innerHTML = opts.map(v => '<option value="' + v + '">' + v + 'm</option>').join('');
+      if (opts.includes(currentVal)) {
+        lengthSel.value = currentVal;
+      }
+    }
 
     function updateProduct() {
       const w = document.getElementById('sel-width').value;
@@ -206,22 +223,13 @@
       const noteEl = document.getElementById('sel-note');
 
       const single = productData[w + '-' + l + '-1'];
-      const pack2 = productData[w + '-' + l + '-2'];
-      const unitPrice = Math.round(pack2.price / 2);
 
-      if (q === 1) {
+      if (q === 1 && single) {
         priceEl.innerHTML = '&yen;' + single.price.toLocaleString();
         unitEl.textContent = '';
         noteEl.textContent = '';
         btn.href = single.url;
         btn.textContent = '購入する →';
-        btn.classList.remove('sel-btn-inquiry');
-      } else if (q === 2) {
-        priceEl.innerHTML = '1本あたり ¥' + unitPrice.toLocaleString();
-        unitEl.textContent = '2本セット価格 ¥' + pack2.price.toLocaleString() + '（税込）';
-        noteEl.textContent = '※ 購入ページで必要な本数を選択できます';
-        btn.href = pack2.url;
-        btn.textContent = 'まとめ買いページへ →';
         btn.classList.remove('sel-btn-inquiry');
       } else {
         priceEl.innerHTML = '要お見積り';
@@ -236,7 +244,10 @@
       window.parent.postMessage({ type: 'resize', height: document.body.scrollHeight }, '*');
     }
 
-    document.getElementById('sel-width').addEventListener('change', updateProduct);
+    document.getElementById('sel-width').addEventListener('change', function() {
+      updateLengthOptions();
+      updateProduct();
+    });
     document.getElementById('sel-length').addEventListener('change', updateProduct);
     document.getElementById('sel-qty').addEventListener('change', updateProduct);
 
